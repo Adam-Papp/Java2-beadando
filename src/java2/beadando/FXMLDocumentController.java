@@ -86,7 +86,7 @@ public class FXMLDocumentController implements Initializable {
             System.out.println(f.getName());
         }
     }    
-    
+    //teszt
     
     public void playButton(MouseEvent event)
     {
