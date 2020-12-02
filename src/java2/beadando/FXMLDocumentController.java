@@ -58,14 +58,47 @@ public class FXMLDocumentController implements Initializable {
         
         // Zene hosszak kinyerése, kiírása 
         int duration = 0;
-        try {
-          AudioFile audioFile = AudioFileIO.read(new File("songs/RockAngel.mp3"));
-          duration = audioFile.getAudioHeader().getTrackLength();
-        } catch (Exception e) {
-          e.printStackTrace();
+        int minutesCount = 0;
+        String lengthStr = "";
+        for (File f : songs)
+        {
+            
+            try {
+              AudioFile audioFile = AudioFileIO.read(new File("songs/" + f.getName()));
+              duration = audioFile.getAudioHeader().getTrackLength();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+            while (duration > 59)
+            {
+                minutesCount++;
+                duration -= 60;
+            }
+            if (duration < 10)
+            {
+                lengthStr = minutesCount + ":0" + duration;
+            }
+            else
+            {
+                lengthStr = minutesCount + ":" + duration;
+            }
+            
+            songLengths.add(lengthStr);
+            ListViewSongLengths.setItems(songLengths);
+            
+            lengthStr = "";
+            duration = 0;
+            minutesCount = 0;
         }
-        songLengths.add(Double.toString(duration));
-        ListViewSongLengths.setItems(songLengths);
+//        int duration = 0;
+//        try {
+//          AudioFile audioFile = AudioFileIO.read(new File("songs/RockAngel.mp3"));
+//          duration = audioFile.getAudioHeader().getTrackLength();
+//        } catch (Exception e) {
+//          e.printStackTrace();
+//        }
+//        songLengths.add(Double.toString(duration));
+//        ListViewSongLengths.setItems(songLengths);
         
         
         
