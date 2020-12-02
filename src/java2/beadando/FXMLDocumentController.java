@@ -31,6 +31,8 @@ public class FXMLDocumentController implements Initializable {
     public ListView<String> ListViewSongLengths;
     
     private static MediaPlayer mediaPlayer;
+    private static Media media;
+    private static String source;
     
     ObservableList<String> songNames = FXCollections.observableArrayList();
     
@@ -62,9 +64,16 @@ public class FXMLDocumentController implements Initializable {
         } catch (Exception e) {
           e.printStackTrace();
         }
-        
         songLengths.add(Double.toString(duration));
         ListViewSongLengths.setItems(songLengths);
+        
+        
+        
+        // Alapértelmezett 1. szám beállítása, csak hogy ne szálljon el nullexception-nel
+//        source = new File("songs/" + songNames.get(0)).toURI().toString();
+////                Media media = null;
+//        media = new Media(source);
+//        mediaPlayer = new MediaPlayer(media);
         
         
         
@@ -73,29 +82,45 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 currentPlaying.setText(newValue);
+                
+                source = new File("songs/" + newValue).toURI().toString();
+//                Media media = null;
+                media = new Media(source);
+                mediaPlayer = new MediaPlayer(media);
+                
+                
+                mediaPlayer.setVolume(0.2);
+                volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+                volumeSlider.valueProperty().addListener(new InvalidationListener() {
+
+                    @Override
+                    public void invalidated(Observable observable) {
+                        mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+                    }
+                });
             }
         });
         
         
         
         // Zene beállítása lejátszásra
-        String source = new File("songs/RockAngel.mp3").toURI().toString();
-        Media media = null;
-        media = new Media(source);
-        mediaPlayer = new MediaPlayer(media);
+//        String source = new File("songs/RockAngel.mp3").toURI().toString();
+//        Media media = null;
+//        media = new Media(source);
+//        mediaPlayer = new MediaPlayer(media);
         
         
         
         // Hangerőszabályzó beállítása
-        mediaPlayer.setVolume(0.2);
-        volumeSlider.setValue(mediaPlayer.getVolume() * 100);
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
-            
-            @Override
-            public void invalidated(Observable observable) {
-                mediaPlayer.setVolume(volumeSlider.getValue() / 100);
-            }
-        });
+//        mediaPlayer.setVolume(0.2);
+//        volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+//        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+//            
+//            @Override
+//            public void invalidated(Observable observable) {
+//                mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+//            }
+//        });
     }
     
     public void playButton(MouseEvent event)
