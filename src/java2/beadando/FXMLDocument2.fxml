@@ -35,7 +35,7 @@
                   </ScrollPane>
                   <Label layoutX="18.0" layoutY="45.0" text="Név" />
                   <Label layoutX="217.0" layoutY="45.0" text="db" />
-                  <Label layoutX="430.0" layoutY="45.0" prefHeight="0.0" prefWidth="58.0" text="akt szám" />
+                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="315.0" layoutY="45.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER" />
                   <Slider fx:id="volumeSlider" blockIncrement="1.0" layoutX="389.0" layoutY="147.0" />
                   <ScrollPane layoutX="18.0" layoutY="226.0" prefHeight="156.0" prefWidth="555.0">
                      <content>
@@ -43,11 +43,11 @@
                            <items>
                               <Pane prefHeight="279.0" prefWidth="166.0">
                                  <children>
-                                    <ListView fx:id="ListViewZeneNev" prefHeight="288.0" prefWidth="367.0" />
+                                    <ListView fx:id="ListViewSongNames" prefHeight="288.0" prefWidth="367.0" />
                                  </children></Pane>
                               <Pane prefHeight="279.0" prefWidth="310.0">
                                  <children>
-                                    <ListView fx:id="ListViewZeneHossz" layoutX="-3.0" layoutY="-1.0" prefHeight="279.0" prefWidth="82.0" />
+                                    <ListView fx:id="ListViewSongLengths" layoutX="-3.0" layoutY="-1.0" prefHeight="279.0" prefWidth="82.0" />
                                  </children></Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0">
                                  <children>
