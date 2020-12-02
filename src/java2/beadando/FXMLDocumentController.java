@@ -53,7 +53,7 @@ public class FXMLDocumentController implements Initializable {
         int duration = 0;
 
         try {
-          AudioFile audioFile = AudioFileIO.read(new File("RockAngel.mp3"));
+          AudioFile audioFile = AudioFileIO.read(new File("songs/RockAngel.mp3"));
           duration = audioFile.getAudioHeader().getTrackLength();
         } catch (Exception e) {
           e.printStackTrace();
@@ -64,7 +64,7 @@ public class FXMLDocumentController implements Initializable {
         ListViewZeneHossz.setItems(zenehosszak);
         ListViewZeneNev.setItems(names);
         
-        String source = new File("RockAngel.mp3").toURI().toString();
+        String source = new File("songs/RockAngel.mp3").toURI().toString();
         Media media = null;
         media = new Media(source);
         mediaPlayer = new MediaPlayer(media);
@@ -78,6 +78,13 @@ public class FXMLDocumentController implements Initializable {
                 mediaPlayer.setVolume(volumeSlider.getValue() / 100);
             }
         });
+        
+        
+        File[] songs = io.getFilesInFolder("songs");
+        for (File f : songs)
+        {
+            System.out.println(f.getName());
+        }
     }    
     
     
