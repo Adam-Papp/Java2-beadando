@@ -9,6 +9,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +18,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.jaudiotagger.audio.AudioFile;
@@ -40,7 +44,8 @@ public class FXMLDocumentController implements Initializable {
     
     ObservableList<String> zenehosszak = FXCollections.observableArrayList();
     
-    
+    @FXML
+    Slider volumeSlider;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -58,16 +63,36 @@ public class FXMLDocumentController implements Initializable {
         
         ListViewZeneHossz.setItems(zenehosszak);
         ListViewZeneNev.setItems(names);
-    }    
-    
-    
-    public void playButton(ActionEvent event)
-    {
+        
         String source = new File("RockAngel.mp3").toURI().toString();
         Media media = null;
         media = new Media(source);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.2);
+        
+        volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+            }
+        });
+    }    
+    
+    
+    public void playButton(MouseEvent event)
+    {
         mediaPlayer.play();
+    }
+    
+    public void pauseButton(MouseEvent event)
+    {
+        mediaPlayer.pause();
+    }
+    
+    public void stopButton(MouseEvent event)
+    {
+        mediaPlayer.stop();
     }
 }
