@@ -42,17 +42,14 @@ public class FXMLDocumentController implements Initializable {
     Slider volumeSlider;
     
     
+    ObservableList<Song> songs = FXCollections.observableArrayList();
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // Mappából file-ok kinyerése, zene nevek kiírása
-        File[] songs = io.getFilesInFolder("songs");
-        for (File f : songs)
-        {
-            songNames.add(f.getName());
-        }
-        ListViewSongNames.setItems(songNames);
+        // Mappából file-ok kinyerése
+        File[] songFiles = io.getFilesInFolder("songs");
         
         
         
@@ -60,8 +57,10 @@ public class FXMLDocumentController implements Initializable {
         int duration = 0;
         int minutesCount = 0;
         String lengthStr = "";
-        for (File f : songs)
+        for (File f : songFiles)
         {
+            songNames.add(f.getName());
+            
             
             try {
               AudioFile audioFile = AudioFileIO.read(new File("songs/" + f.getName()));
@@ -69,11 +68,15 @@ public class FXMLDocumentController implements Initializable {
             } catch (Exception e) {
               e.printStackTrace();
             }
+            
+            
             while (duration > 59)
             {
                 minutesCount++;
                 duration -= 60;
             }
+            
+            
             if (duration < 10)
             {
                 lengthStr = minutesCount + ":0" + duration;
@@ -83,33 +86,22 @@ public class FXMLDocumentController implements Initializable {
                 lengthStr = minutesCount + ":" + duration;
             }
             
+            
             songLengths.add(lengthStr);
-            ListViewSongLengths.setItems(songLengths);
+            
+            songs.add(new Song(f, f.getName(), lengthStr));
             
             lengthStr = "";
             duration = 0;
             minutesCount = 0;
         }
-//        int duration = 0;
-//        try {
-//          AudioFile audioFile = AudioFileIO.read(new File("songs/RockAngel.mp3"));
-//          duration = audioFile.getAudioHeader().getTrackLength();
-//        } catch (Exception e) {
-//          e.printStackTrace();
-//        }
-//        songLengths.add(Double.toString(duration));
-//        ListViewSongLengths.setItems(songLengths);
+        
+        ListViewSongNames.setItems(songNames);
+        ListViewSongLengths.setItems(songLengths);
         
         
         
-        // Alapértelmezett 1. szám beállítása, csak hogy ne szálljon el nullexception-nel
-//        source = new File("songs/" + songNames.get(0)).toURI().toString();
-////                Media media = null;
-//        media = new Media(source);
-//        mediaPlayer = new MediaPlayer(media);
-        
-        
-        
+        // Real time listview figyelő
         ListViewSongNames.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
             @Override
@@ -136,12 +128,10 @@ public class FXMLDocumentController implements Initializable {
         
         
         
-        // Zene beállítása lejátszásra
-//        String source = new File("songs/RockAngel.mp3").toURI().toString();
-//        Media media = null;
-//        media = new Media(source);
-//        mediaPlayer = new MediaPlayer(media);
-        
+        for (Song s : songs)
+        {
+            System.out.println(s.toString());
+        }
         
         
         // Hangerőszabályzó beállítása
