@@ -198,6 +198,19 @@ public class FXMLDocumentController implements Initializable {
     public void playButton(MouseEvent event)
     {
         mediaPlayer.play();
+        
+        String replace = media.getSource().replace("%20", " ");
+        
+        for (Song s : songs)
+        {
+//            if (s.getSongName().equals(replace.substring(0, replace.length()-4)))
+            if (s.getSongFile().getName().equals(replace))
+            {
+                System.out.println(replace);
+                s.setPlayCount(s.getPlayCount()+1);
+                System.out.println(s.toString());
+            }
+        }
     }
     
     public void pauseButton(MouseEvent event)
