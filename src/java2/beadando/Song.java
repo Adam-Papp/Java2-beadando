@@ -21,6 +21,15 @@ public class Song {
         playCount = 0;
     }
 
+    public Song(Song s) {
+        this.songFile = s.songFile;
+        this.songName = s.songName;
+        this.songLength = s.songLength;
+        
+        playCount = 0;
+    }
+
+    
     
     
     // Getterek

@@ -14,6 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -27,8 +32,17 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public Label currentPlaying;
     
-    public ListView<String> ListViewSongNames;
-    public ListView<String> ListViewSongLengths;
+    @FXML
+    private TableView<Song> TableViewSongs = new TableView<Song>();
+    
+    @FXML
+    private TableColumn<Song, String> nameColumn = new TableColumn<>();
+    
+    @FXML
+    private TableColumn<Song, String> lengthColumn = new TableColumn<>();
+    
+    @FXML
+    private TableColumn<Song, Integer> playCountColumn = new TableColumn<>();
     
     private static MediaPlayer mediaPlayer;
     private static Media media;
@@ -59,7 +73,7 @@ public class FXMLDocumentController implements Initializable {
         String lengthStr = "";
         for (File f : songFiles)
         {
-            songNames.add(f.getName());
+            songNames.add(f.getName().substring(0, f.getName().length()-4));
             
             
             try {
@@ -89,26 +103,67 @@ public class FXMLDocumentController implements Initializable {
             
             songLengths.add(lengthStr);
             
-            songs.add(new Song(f, f.getName(), lengthStr));
+            songs.add(new Song(f, f.getName().substring(0, f.getName().length()-4), lengthStr));
             
             lengthStr = "";
             duration = 0;
             minutesCount = 0;
         }
         
-        ListViewSongNames.setItems(songNames);
-        ListViewSongLengths.setItems(songLengths);
+        
+        for (Song s : songs)
+        {
+            System.out.println(s.toString());
+        }
+        
+        
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
+        
+        
+        lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
+        
+        
+        playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
+        
+        TableViewSongs.setItems(songs);
+        
+        
+        
+        //  Cella szerinti listener
+//        TableViewSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+//        @Override
+//        public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+//            //Check whether item is selected and set value of selected item to Label
+//            if(TableViewSongs.getSelectionModel().getSelectedItem() != null) 
+//            {    
+//               TableViewSelectionModel selectionModel = TableViewSongs.getSelectionModel();
+//               ObservableList selectedCells = selectionModel.getSelectedCells();
+//               TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+//               Object val = tablePosition.getTableColumn().getCellData(newValue);
+//               System.out.println("Selected Value" + val);
+//             }
+//             }
+//        });
         
         
         
         // Real time listview figyelő
-        ListViewSongNames.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        TableViewSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentPlaying.setText(newValue);
+            public void changed(ObservableValue observable, Object oldValue, Object newValue)
+            {
+                Song tempSong = null;
+                for (Song s : songs)
+                {
+                    if(newValue == s)
+                        tempSong = new Song((Song) newValue);
+                }
+                currentPlaying.setText(tempSong.getSongName());
                 
-                source = new File("songs/" + newValue).toURI().toString();
+                tempSong.setSongName(tempSong.getSongName() + ".mp3");
+                
+                source = new File("songs/" + tempSong.getSongName()).toURI().toString();
 //                Media media = null;
                 media = new Media(source);
                 mediaPlayer = new MediaPlayer(media);
@@ -126,12 +181,6 @@ public class FXMLDocumentController implements Initializable {
             }
         });
         
-        
-        
-        for (Song s : songs)
-        {
-            System.out.println(s.toString());
-        }
         
         
         // Hangerőszabályzó beállítása

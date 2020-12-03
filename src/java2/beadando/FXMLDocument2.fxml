@@ -35,56 +35,43 @@
                   </ScrollPane>
                   <Label layoutX="18.0" layoutY="45.0" text="Név" />
                   <Label layoutX="217.0" layoutY="45.0" text="db" />
-                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="315.0" layoutY="45.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER" />
+                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="315.0" layoutY="7.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font></Label>
                   <Slider fx:id="volumeSlider" blockIncrement="1.0" layoutX="389.0" layoutY="147.0" />
-                  <ScrollPane layoutX="18.0" layoutY="226.0" prefHeight="156.0" prefWidth="555.0">
-                     <content>
-                        <SplitPane dividerPositions="0.6878504672897197, 0.8392523364485981" prefHeight="281.0" prefWidth="537.0">
-                           <items>
-                              <Pane prefHeight="279.0" prefWidth="166.0">
-                                 <children>
-                                    <ListView fx:id="ListViewSongNames" prefHeight="288.0" prefWidth="367.0" />
-                                 </children></Pane>
-                              <Pane prefHeight="279.0" prefWidth="310.0">
-                                 <children>
-                                    <ListView fx:id="ListViewSongLengths" layoutX="-3.0" layoutY="-1.0" prefHeight="279.0" prefWidth="82.0" />
-                                 </children></Pane>
-                              <Pane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <ListView fx:id="ListViewZeneLejatszasiFrekvencia" layoutY="-3.0" prefHeight="282.0" prefWidth="85.0" />
-                                 </children></Pane>
-                           </items>
-                        </SplitPane>
-                     </content>
-                  </ScrollPane>
-                  <Label layoutX="28.0" layoutY="209.0" text="Név" />
-                  <Label layoutX="397.0" layoutY="209.0" text="Hossz" />
-                  <Label layoutX="466.0" layoutY="209.0" text="Lejátszási frekvencia" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="444.0" layoutY="78.0" onMouseClicked="#playButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="438.0" layoutY="103.0" onMouseClicked="#playButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/002-play-button-arrowhead.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="488.0" layoutY="78.0" onMouseClicked="#pauseButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="482.0" layoutY="103.0" onMouseClicked="#pauseButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/003-pause.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="328.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="322.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/005-previous.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="543.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="537.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/004-next.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="389.0" layoutY="78.0" onMouseClicked="#stopButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="383.0" layoutY="103.0" onMouseClicked="#stopButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/001-media-stop-button.png" />
                      </image>
                   </ImageView>
+                  <TableView fx:id="TableViewSongs" editable="true" layoutX="22.0" layoutY="220.0" prefHeight="169.0" prefWidth="556.0">
+                     <columns>
+                        <TableColumn fx:id="nameColumn" prefWidth="341.0" text="Név" />
+                        <TableColumn fx:id="lengthColumn" prefWidth="74.0" text="Hossz" />
+                        <TableColumn fx:id="playCountColumn" prefWidth="126.0" text="Lejátszási frekvencia" />
+                     </columns></TableView>
+                  <Slider layoutX="353.0" layoutY="55.0" prefHeight="14.0" prefWidth="200.0" showTickMarks="true" />
                </children></AnchorPane>
       </content>
     </Tab>
