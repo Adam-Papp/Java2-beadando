@@ -8,7 +8,8 @@ public class Song {
     private File songFile;
     private String songName;
     private String songLength;
-
+    private int playCount;
+    
     
     
     // Konstruktor
@@ -16,6 +17,8 @@ public class Song {
         this.songFile = songFile;
         this.songName = songName;
         this.songLength = songLength;
+        
+        playCount = 0;
     }
 
     
@@ -33,6 +36,10 @@ public class Song {
         return songLength;
     }
 
+    public int getPlayCount() {
+        return playCount;
+    }
+
     
     
     // Setterek
@@ -48,11 +55,16 @@ public class Song {
         this.songLength = songLength;
     }
 
+    public void setPlayCount(int playCount) {
+        this.playCount = playCount;
+    }
+
     
     
     // toString
     @Override
     public String toString() {
-        return "Song{" + "songFile=" + songFile + ", songName=" + songName + ", songLength=" + songLength + '}';
+        return "Song{" + "songFile=" + songFile + ", songName=" + songName + ", songLength=" + songLength + ", playCount=" + playCount + '}';
     }
+    
 }
