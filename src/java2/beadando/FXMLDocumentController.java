@@ -1,5 +1,6 @@
 package java2.beadando;
 
+
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -54,6 +56,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     Slider volumeSlider;
+    
+    public ListView<String> playListView;
+    public TextField playListField;
+    public ObservableList<String> playLists;
     
     
     ObservableList<Song> songs = FXCollections.observableArrayList();
@@ -221,5 +227,15 @@ public class FXMLDocumentController implements Initializable {
     public void stopButton(MouseEvent event)
     {
         mediaPlayer.stop();
+    }
+    
+    public void addNewList(MouseEvent event)
+    {
+        if(!playListField.getText().equals("")){
+              playLists.add(playListField.getText());
+              playListView.getItems().add(playListField.getText());
+              playListField.clear();
+              
+          }  
     }
 }
