@@ -59,6 +59,10 @@ public class FXMLDocumentController implements Initializable {
     
     public ListView<String> playListView;
     public TextField playListField;
+    public ObservableList<String> playLists;
+    
+    public ListView<String> playListView;
+    public TextField playListField;
     ObservableList<String> playLists = FXCollections.observableArrayList();
     
     
@@ -269,6 +273,16 @@ public class FXMLDocumentController implements Initializable {
             playLists.add(playListField.getText());
             playListView.getItems().add(playListField.getText());
             playListField.clear();
+              
+          }  
+    }
+    
+    public void addNewList(MouseEvent event)
+    {
+        if(!playListField.getText().equals("")){
+              playLists.add(playListField.getText());
+              playListView.getItems().add(playListField.getText());
+              playListField.clear();
               
           }  
     }
