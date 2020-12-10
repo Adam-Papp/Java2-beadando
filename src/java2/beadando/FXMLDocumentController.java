@@ -64,10 +64,16 @@ public class FXMLDocumentController implements Initializable {
     
     ObservableList<Song> songs = FXCollections.observableArrayList();
     
+    boolean isPlaying;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        isPlaying = false;
+        
+        
+        
         // Mappából file-ok kinyerése
         File[] songFiles = io.getFilesInFolder("songs");
         
@@ -201,21 +207,32 @@ public class FXMLDocumentController implements Initializable {
 //        });
     }
     
+    
+    
+    public void setMediaPlayer()
+    {
+        
+    }
+    
     public void playButton(MouseEvent event)
     {
-        mediaPlayer.play();
-        
-        String replace = media.getSource().replace("%20", " ");
-        
-        for (Song s : songs)
+        if (!isPlaying)
         {
-//            if (s.getSongName().equals(replace.substring(0, replace.length()-4)))
-            if (s.getSongFile().getName().equals(replace))
+            mediaPlayer.play();
+            isPlaying = true;
+
+            String replace = media.getSource().replace("%20", " ");
+
+            for (Song s : songs)
             {
-                System.out.println(replace);
-                int playCount = s.getPlayCount();
-                s.setPlayCount(++playCount);
-                System.out.println(s.toString());
+    //            if (s.getSongName().equals(replace.substring(0, replace.length()-4)))
+                if (s.getSongFile().getName().equals(replace))
+                {
+                    System.out.println(replace);
+                    int playCount = s.getPlayCount();
+                    s.setPlayCount(++playCount);
+                    System.out.println(s.toString());
+                }
             }
         }
     }
@@ -223,11 +240,13 @@ public class FXMLDocumentController implements Initializable {
     public void pauseButton(MouseEvent event)
     {
         mediaPlayer.pause();
+        isPlaying = false;
     }
     
     public void stopButton(MouseEvent event)
     {
         mediaPlayer.stop();
+        isPlaying = false;
     }
     
     public void addNewList(MouseEvent event)
