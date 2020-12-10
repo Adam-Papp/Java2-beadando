@@ -57,20 +57,24 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Slider volumeSlider;
     
-    public ListView<String> playListView;
-    public TextField playListField;
-    public ObservableList<String> playLists;
-    
-    public ListView<String> playListView;
-    public TextField playListField;
-    ObservableList<String> playLists = FXCollections.observableArrayList();
+    //PLAYLIST
+
     
     
     ObservableList<Song> songs = FXCollections.observableArrayList();
     
     boolean isPlaying;
     
-    
+    @FXML
+    private TableView<playList> TableViewPlayList = new TableView<playList>();
+    private TableColumn<playList, String> playListNameColumn = new TableColumn<>();
+    private TableColumn<playList, String> playListSizeColumn = new TableColumn<>();
+    ObservableList<playList> playLists = FXCollections.observableArrayList();
+
+    public TextField playListField;
+ 
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -194,6 +198,9 @@ public class FXMLDocumentController implements Initializable {
 //                mediaPlayer.setVolume(volumeSlider.getValue() / 100);
 //            }
 //        });
+        playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
+        playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
+        TableViewPlayList.setItems(playLists);
     }
     
     
@@ -245,6 +252,7 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+        
     
     public void playButton(MouseEvent event)
     {
@@ -266,22 +274,11 @@ public class FXMLDocumentController implements Initializable {
     
     public void addNewList(MouseEvent event)
     {
-        
-        if(!playListField.getText().equals(""))
-        {
-            
-            playLists.add(playListField.getText());
-            playListView.getItems().add(playListField.getText());
-            playListField.clear();
-              
-          }  
-    }
-    
-    public void addNewList(MouseEvent event)
-    {
         if(!playListField.getText().equals("")){
-              playLists.add(playListField.getText());
-              playListView.getItems().add(playListField.getText());
+              
+            playLists.add(new playList(playListField.getText()));
+            TableViewPlayList.setItems(playLists);
+//              playListView.getItems().add(playListField.getText());
               playListField.clear();
               
           }  
