@@ -59,7 +59,7 @@ public class FXMLDocumentController implements Initializable {
     
     public ListView<String> playListView;
     public TextField playListField;
-    public ObservableList<String> playLists;
+    ObservableList<String> playLists = FXCollections.observableArrayList();
     
     
     ObservableList<Song> songs = FXCollections.observableArrayList();
@@ -213,7 +213,8 @@ public class FXMLDocumentController implements Initializable {
             if (s.getSongFile().getName().equals(replace))
             {
                 System.out.println(replace);
-                s.setPlayCount(s.getPlayCount()+1);
+                int playCount = s.getPlayCount();
+                s.setPlayCount(++playCount);
                 System.out.println(s.toString());
             }
         }
@@ -231,10 +232,13 @@ public class FXMLDocumentController implements Initializable {
     
     public void addNewList(MouseEvent event)
     {
-        if(!playListField.getText().equals("")){
-              playLists.add(playListField.getText());
-              playListView.getItems().add(playListField.getText());
-              playListField.clear();
+        
+        if(!playListField.getText().equals(""))
+        {
+            
+            playLists.add(playListField.getText());
+            playListView.getItems().add(playListField.getText());
+            playListField.clear();
               
           }  
     }
