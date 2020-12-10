@@ -165,31 +165,16 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue)
             {
-                Song tempSong = null;
-                for (Song s : songs)
+                if (isPlaying)
                 {
-                    if(newValue == s)
-                        tempSong = new Song((Song) newValue);
+                    mediaPlayer.stop();
                 }
-                currentPlaying.setText(tempSong.getSongName());
                 
-                tempSong.setSongName(tempSong.getSongName() + ".mp3");
+                isPlaying = false;
                 
-                source = new File("songs/" + tempSong.getSongName()).toURI().toString();
-//                Media media = null;
-                media = new Media(source);
-                mediaPlayer = new MediaPlayer(media);
+                Song tempSong = (Song) observable.getValue();
                 
-                
-                mediaPlayer.setVolume(0.2);
-                volumeSlider.setValue(mediaPlayer.getVolume() * 100);
-                volumeSlider.valueProperty().addListener(new InvalidationListener() {
-
-                    @Override
-                    public void invalidated(Observable observable) {
-                        mediaPlayer.setVolume(volumeSlider.getValue() / 100);
-                    }
-                });
+                playSong(tempSong);
             }
         });
         
@@ -209,13 +194,33 @@ public class FXMLDocumentController implements Initializable {
     
     
     
-    public void setMediaPlayer()
+    public void playSong(Song tempSong)
     {
+        source = null;
         
-    }
-    
-    public void playButton(MouseEvent event)
-    {
+        currentPlaying.setText(tempSong.getSongName());
+                
+        if (!tempSong.getSongName().endsWith(".mp3"))
+            tempSong.setSongName(tempSong.getSongName() + ".mp3");
+                
+        source = new File("songs/" + tempSong.getSongName()).toURI().toString();
+//                Media media = null;
+        media = new Media(source);
+        mediaPlayer = new MediaPlayer(media);
+                
+                
+        mediaPlayer.setVolume(0.2);
+        volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+            }
+        });
+           
+        
+        
         if (!isPlaying)
         {
             mediaPlayer.play();
@@ -235,6 +240,12 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
+    }
+    
+    public void playButton(MouseEvent event)
+    {
+        if (!isPlaying)
+            mediaPlayer.play();
     }
     
     public void pauseButton(MouseEvent event)
