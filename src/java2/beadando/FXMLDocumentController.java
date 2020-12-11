@@ -50,19 +50,19 @@ public class FXMLDocumentController implements Initializable
     private static MediaPlayer mediaPlayer;
     private static Media media;
     private static String source;
-    boolean isPlaying;
-    public int currentPlayingIdx;
+    private boolean isPlaying;
+    private int currentPlayingIdx;
     @FXML
-    public Label currentPlaying;
+    private Label currentPlaying;
     @FXML
-    Slider volumeSlider;
+    private Slider volumeSlider;
     @FXML
-    AreaChart spectrum;
+    private AreaChart spectrum;
     
     
     
     //  Playlist táblázat
-    ObservableList<playList> playLists = FXCollections.observableArrayList();
+    private ObservableList<playList> playLists = FXCollections.observableArrayList();
     @FXML
     private TableView<playList> TableViewPlayList = new TableView<playList>();
     @FXML
@@ -70,11 +70,19 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private TableColumn<playList, String> playListSizeColumn = new TableColumn<>();
     @FXML
-    public TextField playListField;
+    private TextField playListField;
     
     
     
     //  Statisztikák
+    @FXML
+    private Label totalPlayingDuration;
+    @FXML
+    private Label playedFilesCount;
+    private int playedFilesCountInt = 0;
+    private String totalPlayingDurationString = "";
+    private int totalPlayingDurationInteger = 0;
+    private int totalMinutesCount = 0;
     
     
     
@@ -208,7 +216,7 @@ public class FXMLDocumentController implements Initializable
         
         
         
-        //  Zene lejátszása, lejátszási frekvencia növelése
+        //  Zene lejátszása, lejátszási frekvencia növelése, statisztikák kiírása
         if (!isPlaying)
         {
             mediaPlayer.play();
@@ -224,6 +232,32 @@ public class FXMLDocumentController implements Initializable
             
             songs.get(currentPlayingIdx).setPlayCount(songs.get(currentPlayingIdx).getPlayCount()+1);
             TableViewSongs.refresh();
+            
+            
+            
+            playedFilesCountInt++;
+            playedFilesCount.setText(String.valueOf(playedFilesCountInt));
+            
+            
+            
+            String songDuration[] = tempSong.getSongLength().split(":");
+            totalPlayingDurationInteger = (Integer.parseInt(songDuration[0])*60) + Integer.parseInt(songDuration[1]);
+            
+            while (totalPlayingDurationInteger > 59)
+            {
+                totalMinutesCount++;
+                totalPlayingDurationInteger -= 60;
+            }
+            
+            if (totalPlayingDurationInteger < 10)
+            {
+                totalPlayingDurationString = totalMinutesCount + ":0" + totalPlayingDurationInteger;
+            }
+            else
+            {
+                totalPlayingDurationString = totalMinutesCount + ":" + totalPlayingDurationInteger;
+            }
+            totalPlayingDuration.setText(totalPlayingDurationString);
         }
         
         

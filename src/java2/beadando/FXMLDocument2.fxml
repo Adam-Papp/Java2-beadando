@@ -104,14 +104,24 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="28.0" layoutY="54.0" text="Teljes eddigi zenehallgatási idő:">
+                  <Label layoutX="31.0" layoutY="57.0" text="Teljes eddigi zenehallgatási idő:">
                      <font>
-                        <Font size="39.0" />
+                        <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="31.0" layoutY="190.0" text="Lejátszott fájlok száma:">
+                  <Label layoutX="31.0" layoutY="135.0" text="Lejátszott fájlok száma:">
                      <font>
-                        <Font size="53.0" />
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalPlayingDuration" layoutX="427.0" layoutY="60.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="playedFilesCount" layoutX="427.0" layoutY="138.0">
+                     <font>
+                        <Font size="20.0" />
                      </font>
                   </Label>
                </children></AnchorPane>
