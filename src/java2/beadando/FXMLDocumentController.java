@@ -3,6 +3,7 @@ package java2.beadando;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -12,16 +13,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.jaudiotagger.audio.AudioFile;
@@ -31,21 +33,25 @@ import org.jaudiotagger.audio.AudioFileIO;
 
 public class FXMLDocumentController implements Initializable {
     
+    //  Labelek
     @FXML
     public Label currentPlaying;
     
+    
+    
+    //  Zeneszámok táblázat a Könyvtár tabon
     @FXML
     private TableView<Song> TableViewSongs = new TableView<Song>();
-    
     @FXML
     private TableColumn<Song, String> nameColumn = new TableColumn<>();
-    
     @FXML
     private TableColumn<Song, String> lengthColumn = new TableColumn<>();
-    
     @FXML
     private TableColumn<Song, Integer> playCountColumn = new TableColumn<>();
     
+    
+    
+    //  Lejátszás
     private static MediaPlayer mediaPlayer;
     private static Media media;
     private static String source;
@@ -75,6 +81,8 @@ public class FXMLDocumentController implements Initializable {
  
     public int currentPlayingIdx;
 
+    @FXML
+    AreaChart spectrum;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -184,6 +192,8 @@ public class FXMLDocumentController implements Initializable {
                 Song tempSong = (Song) observable.getValue();
                 
                 playSong(tempSong);
+                
+                
             }
         });
         
@@ -202,6 +212,10 @@ public class FXMLDocumentController implements Initializable {
         playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
         playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         TableViewPlayList.setItems(playLists);
+        
+        
+        
+        
     }
     
     
@@ -247,7 +261,44 @@ public class FXMLDocumentController implements Initializable {
             
             songs.get(currentPlayingIdx).setPlayCount(songs.get(currentPlayingIdx).getPlayCount()+1);
             TableViewSongs.refresh();
+            
         }
+        
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+        
+                int BANDS = mediaPlayer.getAudioSpectrumNumBands();
+
+                XYChart.Data[] series1Data = new XYChart.Data[BANDS];  
+
+                for (int i = 0; i < series1Data.length; i++)
+                {  
+                  series1Data[i] = new XYChart.Data<>(Integer.toString(i + 1), 0);  
+                  series1.getData().add(series1Data[i]);  
+                }
+
+        //        spectrum = new AreaChart(null, null);
+                spectrum.getData().add(series1);
+
+                mediaPlayer.setAudioSpectrumListener(new AudioSpectrumListener() {
+                    float[] buffer = createFilledBuffer(BANDS, mediaPlayer.getAudioSpectrumThreshold());
+
+                        @Override
+                        public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
+                        {
+                            for (int i = 0; i < magnitudes.length; i++) {  
+                            if (magnitudes[i] >= buffer[i])
+                            {  
+                              buffer[i] = magnitudes[i]; 
+                              series1Data[i].setYValue(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold());  
+                            }
+                            else
+                            {
+                              series1Data[i].setYValue(buffer[i] - mediaPlayer.getAudioSpectrumThreshold());  
+                              buffer[i] -= 0.25;  
+                            }
+                          }
+                        }
+                    });
     }
         
     
@@ -290,6 +341,14 @@ public class FXMLDocumentController implements Initializable {
         playSong(songs.get(currentPlayingIdx));
     }
     
+    
+    private float[] createFilledBuffer(int size, float fillValue) {  
+        float[] floats = new float[size];  
+        Arrays.fill(floats, fillValue);  
+        return floats;  
+    }
+    
+    
     public void addNewList(MouseEvent event)
     {
         if(!playListField.getText().equals("")){
@@ -302,3 +361,35 @@ public class FXMLDocumentController implements Initializable {
           }  
     }
 }
+
+
+
+//class SpectrumListener implements AudioSpectrumListener
+//{
+//    private float[] correctedMagnitude;
+//    float[] buffer = createFilledBuffer(mediaPlayer.getAudioSpectrumNumBands(), mediaPlayer.getAudioSpectrumThreshold());
+//        
+//    
+//    
+//    @Override
+//    public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
+//    {
+//        correctedMagnitude[0] = magnitudes[0] - mediaPlayer.getAudioSpectrumThreshold();
+//        
+//        
+//        
+//        for (int i = 0; i < magnitudes.length; i++) {  
+//        if (magnitudes[i] >= buffer[i])
+//        {  
+//          buffer[i] = magnitudes[i]; 
+//          series1Data[i].setYValue(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold());  
+//        }
+//        else
+//        {
+//          series1Data[i].setYValue(buffer[i] - mediaPlayer.getAudioSpectrumThreshold());  
+//          buffer[i] -= 0.25;  
+//        }
+//      }
+//   }
+//    
+//}

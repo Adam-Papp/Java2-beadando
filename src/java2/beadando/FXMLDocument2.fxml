@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
@@ -18,11 +20,11 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="600.0">
                <children>
                   <Label layoutX="22.0" layoutY="25.0" text="Lejátszási listák:" />
-                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="315.0" layoutY="7.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER">
+                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="309.0" layoutY="34.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font></Label>
-                  <Slider fx:id="volumeSlider" blockIncrement="1.0" layoutX="389.0" layoutY="147.0" />
+                  <Slider fx:id="volumeSlider" blockIncrement="1.0" layoutX="366.0" layoutY="157.0" prefHeight="35.0" prefWidth="175.0" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="438.0" layoutY="103.0" onMouseClicked="#playButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/002-play-button-arrowhead.png" />
@@ -54,7 +56,6 @@
                         <TableColumn fx:id="lengthColumn" prefWidth="74.0" text="Hossz" />
                         <TableColumn fx:id="playCountColumn" prefWidth="126.0" text="Lejátszási frekvencia" />
                      </columns></TableView>
-                  <Slider layoutX="353.0" layoutY="55.0" prefHeight="14.0" prefWidth="200.0" showTickMarks="true" />
                   <TableView fx:id="TableViewSongs1" editable="true" layoutX="22.0" layoutY="55.0" prefHeight="127.0" prefWidth="259.0">
                      <columns>
                         <TableColumn fx:id="playListNameColumn" prefWidth="202.0" text="Név" />
@@ -79,6 +80,22 @@
                       <TableColumn fx:id="playListSizeColumn" minWidth="0.0" prefWidth="70.0" text="Darab" />
                     </columns>
                   </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab text="Magic">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <AreaChart fx:id="spectrum" prefHeight="397.0" prefWidth="600.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </AreaChart>
                </children>
             </AnchorPane>
         </content>
