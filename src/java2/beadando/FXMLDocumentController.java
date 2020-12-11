@@ -132,10 +132,10 @@ public class FXMLDocumentController implements Initializable {
         }
         
         
-        for (Song s : songs)
-        {
-            System.out.println(s.toString());
-        }
+//        for (Song s : songs)
+//        {
+//            System.out.println(s.toString());
+//        }
         
         
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
@@ -211,11 +211,10 @@ public class FXMLDocumentController implements Initializable {
         source = null;
         
         currentPlaying.setText(tempSong.getSongName());
-                
-        if (!tempSong.getSongName().contains(".mp3"))
-            tempSong.setSongName(tempSong.getSongName() + ".mp3");
-                
-        source = new File("songs/" + tempSong.getSongName()).toURI().toString();
+        
+        String tempSongName = tempSong.getSongName().concat(".mp3");
+        
+        source = new File("songs/" + tempSongName).toURI().toString();
 //                Media media = null;
         media = new Media(source);
         mediaPlayer = new MediaPlayer(media);
@@ -238,8 +237,6 @@ public class FXMLDocumentController implements Initializable {
             mediaPlayer.play();
             isPlaying = true;
 
-            String replace = media.getSource().replace("%20", " ");
-
             for (int i=0; i<songs.size(); i++)
             {
                 if (songs.get(i) == tempSong)
@@ -248,16 +245,8 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
             
-            for (Song s : songs)
-            {   
-                if (s.getSongFile().getName().equals(replace))
-                {
-                    System.out.println(replace);
-                    int playCount = s.getPlayCount();
-                    s.setPlayCount(++playCount);
-                    System.out.println(s.toString());
-                }
-            }
+            songs.get(currentPlayingIdx).setPlayCount(songs.get(currentPlayingIdx).getPlayCount()+1);
+            TableViewSongs.refresh();
         }
     }
         
