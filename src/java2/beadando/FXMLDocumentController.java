@@ -73,6 +73,7 @@ public class FXMLDocumentController implements Initializable {
 
     public TextField playListField;
  
+    public int currentPlayingIdx;
 
 
     @Override
@@ -211,7 +212,7 @@ public class FXMLDocumentController implements Initializable {
         
         currentPlaying.setText(tempSong.getSongName());
                 
-        if (!tempSong.getSongName().endsWith(".mp3"))
+        if (!tempSong.getSongName().contains(".mp3"))
             tempSong.setSongName(tempSong.getSongName() + ".mp3");
                 
         source = new File("songs/" + tempSong.getSongName()).toURI().toString();
@@ -239,9 +240,16 @@ public class FXMLDocumentController implements Initializable {
 
             String replace = media.getSource().replace("%20", " ");
 
-            for (Song s : songs)
+            for (int i=0; i<songs.size(); i++)
             {
-    //            if (s.getSongName().equals(replace.substring(0, replace.length()-4)))
+                if (songs.get(i) == tempSong)
+                {
+                    currentPlayingIdx = i;
+                }
+            }
+            
+            for (Song s : songs)
+            {   
                 if (s.getSongFile().getName().equals(replace))
                 {
                     System.out.println(replace);
@@ -258,6 +266,7 @@ public class FXMLDocumentController implements Initializable {
     {
         if (!isPlaying)
             mediaPlayer.play();
+        isPlaying = true;
     }
     
     public void pauseButton(MouseEvent event)
@@ -270,6 +279,26 @@ public class FXMLDocumentController implements Initializable {
     {
         mediaPlayer.stop();
         isPlaying = false;
+    }
+    
+    public void previousButton(MouseEvent event)
+    {
+        mediaPlayer.stop();
+        isPlaying = false;
+        currentPlayingIdx--;
+        if (songs.get(currentPlayingIdx).getSongName().contains(".mp3"))
+            songs.get(currentPlayingIdx).setSongName(songs.get(currentPlayingIdx).getSongName().substring(0, songs.get(currentPlayingIdx).getSongName().length()-4));
+        playSong(songs.get(currentPlayingIdx));
+    }
+    
+    public void nextButton(MouseEvent event)
+    {
+        mediaPlayer.stop();
+        isPlaying = false;
+        currentPlayingIdx++;
+        if (songs.get(currentPlayingIdx).getSongName().contains(".mp3"))
+            songs.get(currentPlayingIdx).setSongName(songs.get(currentPlayingIdx).getSongName().substring(0, songs.get(currentPlayingIdx).getSongName().length()-4));
+        playSong(songs.get(currentPlayingIdx));
     }
     
     public void addNewList(MouseEvent event)

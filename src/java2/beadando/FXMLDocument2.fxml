@@ -33,12 +33,12 @@
                         <Image url="@../../../icons/003-pause.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="322.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="322.0" layoutY="103.0" onMouseClicked="#previousButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/005-previous.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="537.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="537.0" layoutY="103.0" onMouseClicked="#nextButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/004-next.png" />
                      </image>
