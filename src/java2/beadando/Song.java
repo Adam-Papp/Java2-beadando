@@ -12,7 +12,7 @@ public class Song {
     
     
     
-    // Konstruktor
+    //  Konstruktor
     public Song(File songFile, String songName, String songLength) {
         this.songFile = songFile;
         this.songName = songName;
@@ -21,6 +21,9 @@ public class Song {
         playCount = 0;
     }
 
+    
+    
+    //  Másoló konstruktor
     public Song(Song s) {
         this.songFile = s.songFile;
         this.songName = s.songName;
@@ -29,7 +32,6 @@ public class Song {
         playCount = 0;
     }
 
-    
     
     
     // Getterek

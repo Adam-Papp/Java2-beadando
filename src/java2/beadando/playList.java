@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
 
 public class playList {
 
-   private String playListName;
-   private int size;
-   private ObservableList songs;
+    private String playListName;
+    private int size;
+    private ObservableList songs;
 
 
     public playList(String playListName) {

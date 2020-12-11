@@ -31,15 +31,10 @@ import org.jaudiotagger.audio.AudioFileIO;
 
 
 
-public class FXMLDocumentController implements Initializable {
-    
-    //  Labelek
-    @FXML
-    public Label currentPlaying;
-    
-    
-    
+public class FXMLDocumentController implements Initializable
+{
     //  Zeneszámok táblázat a Könyvtár tabon
+    ObservableList<Song> songs = FXCollections.observableArrayList();
     @FXML
     private TableView<Song> TableViewSongs = new TableView<Song>();
     @FXML
@@ -55,56 +50,48 @@ public class FXMLDocumentController implements Initializable {
     private static MediaPlayer mediaPlayer;
     private static Media media;
     private static String source;
-    
-    ObservableList<String> songNames = FXCollections.observableArrayList();
-    
-    ObservableList<String> songLengths = FXCollections.observableArrayList();
-    
+    boolean isPlaying;
+    public int currentPlayingIdx;
+    @FXML
+    public Label currentPlaying;
     @FXML
     Slider volumeSlider;
-    
-    //PLAYLIST
-
-    
-    
-    ObservableList<Song> songs = FXCollections.observableArrayList();
-    
-    boolean isPlaying;
-    
-    @FXML
-    private TableView<playList> TableViewPlayList = new TableView<playList>();
-    private TableColumn<playList, String> playListNameColumn = new TableColumn<>();
-    private TableColumn<playList, String> playListSizeColumn = new TableColumn<>();
-    ObservableList<playList> playLists = FXCollections.observableArrayList();
-
-    public TextField playListField;
- 
-    public int currentPlayingIdx;
-
     @FXML
     AreaChart spectrum;
-
+    
+    
+    
+    //  Playlist táblázat
+    ObservableList<playList> playLists = FXCollections.observableArrayList();
+    @FXML
+    private TableView<playList> TableViewPlayList = new TableView<playList>();
+    @FXML
+    private TableColumn<playList, String> playListNameColumn = new TableColumn<>();
+    @FXML
+    private TableColumn<playList, String> playListSizeColumn = new TableColumn<>();
+    @FXML
+    public TextField playListField;
+    
+    
+    
+    //  Statisztikák
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        isPlaying = false;
-        
-        
-        
         // Mappából file-ok kinyerése
         File[] songFiles = io.getFilesInFolder("songs");
         
         
         
-        // Zene hosszak kinyerése, kiírása 
+        // Zene lista feltöltése 
         int duration = 0;
         int minutesCount = 0;
         String lengthStr = "";
         for (File f : songFiles)
         {
-            songNames.add(f.getName().substring(0, f.getName().length()-4));
-            
-            
             try {
               AudioFile audioFile = AudioFileIO.read(new File("songs/" + f.getName()));
               duration = audioFile.getAudioHeader().getTrackLength();
@@ -112,13 +99,11 @@ public class FXMLDocumentController implements Initializable {
               e.printStackTrace();
             }
             
-            
             while (duration > 59)
             {
                 minutesCount++;
                 duration -= 60;
             }
-            
             
             if (duration < 10)
             {
@@ -129,9 +114,6 @@ public class FXMLDocumentController implements Initializable {
                 lengthStr = minutesCount + ":" + duration;
             }
             
-            
-            songLengths.add(lengthStr);
-            
             songs.add(new Song(f, f.getName().substring(0, f.getName().length()-4), lengthStr));
             
             lengthStr = "";
@@ -140,21 +122,45 @@ public class FXMLDocumentController implements Initializable {
         }
         
         
-//        for (Song s : songs)
-//        {
-//            System.out.println(s.toString());
-//        }
+        
+        //  Zenék kiírása konzolra
+        for (Song s : songs)
+        {
+            System.out.println(s.toString());
+        }
         
         
+        
+        //  Zenék tableview beállítása
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
-        
-        
         lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
-        
-        
         playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
-        
         TableViewSongs.setItems(songs);
+        
+        
+        
+        //  Lejátszási lista tableview beállítása   -   Még nem működik jól
+        playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
+        playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
+        TableViewPlayList.setItems(playLists);
+        
+        
+        
+        // Real time tableview kiválasztásfigyelő
+        TableViewSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue)
+            {
+                if (isPlaying)
+                {
+                    mediaPlayer.stop();
+                }
+                isPlaying = false;
+                Song tempSong = (Song) observable.getValue();
+                playSong(tempSong);
+            }
+        });
         
         
         
@@ -173,67 +179,23 @@ public class FXMLDocumentController implements Initializable {
 //             }
 //             }
 //        });
-        
-        
-        
-        // Real time listview figyelő
-        TableViewSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue)
-            {
-                if (isPlaying)
-                {
-                    mediaPlayer.stop();
-                }
-                
-                isPlaying = false;
-                
-                Song tempSong = (Song) observable.getValue();
-                
-                playSong(tempSong);
-                
-                
-            }
-        });
-        
-        
-        
-        // Hangerőszabályzó beállítása
-//        mediaPlayer.setVolume(0.2);
-//        volumeSlider.setValue(mediaPlayer.getVolume() * 100);
-//        volumeSlider.valueProperty().addListener(new InvalidationListener() {
-//            
-//            @Override
-//            public void invalidated(Observable observable) {
-//                mediaPlayer.setVolume(volumeSlider.getValue() / 100);
-//            }
-//        });
-        playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
-        playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
-        TableViewPlayList.setItems(playLists);
-        
-        
-        
-        
-    }
+    }   //  initialize vége
     
     
     
     public void playSong(Song tempSong)
     {
+        //  MediaPlayer beállítása
         source = null;
-        
         currentPlaying.setText(tempSong.getSongName());
-        
         String tempSongName = tempSong.getSongName().concat(".mp3");
-        
         source = new File("songs/" + tempSongName).toURI().toString();
-//                Media media = null;
         media = new Media(source);
         mediaPlayer = new MediaPlayer(media);
-                
-                
+        
+        
+        
+        //  Hangerőszabályzó beállítása
         mediaPlayer.setVolume(0.2);
         volumeSlider.setValue(mediaPlayer.getVolume() * 100);
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
@@ -243,9 +205,10 @@ public class FXMLDocumentController implements Initializable {
                 mediaPlayer.setVolume(volumeSlider.getValue() / 100);
             }
         });
-           
         
         
+        
+        //  Zene lejátszása, lejátszási frekvencia növelése
         if (!isPlaying)
         {
             mediaPlayer.play();
@@ -261,47 +224,50 @@ public class FXMLDocumentController implements Initializable {
             
             songs.get(currentPlayingIdx).setPlayCount(songs.get(currentPlayingIdx).getPlayCount()+1);
             TableViewSongs.refresh();
-            
         }
         
+        
+        
+        //  Audio Spectrum beállítása
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+        int BANDS = mediaPlayer.getAudioSpectrumNumBands();
+        XYChart.Data[] series1Data = new XYChart.Data[BANDS];  
+
+        for (int i = 0; i < series1Data.length; i++)
+        {  
+            series1Data[i] = new XYChart.Data<>(Integer.toString(i + 1), 0);  
+             series1.getData().add(series1Data[i]);  
+        }
+
+        spectrum.getData().add(series1);
         
-                int BANDS = mediaPlayer.getAudioSpectrumNumBands();
+        mediaPlayer.setAudioSpectrumListener(new AudioSpectrumListener() {
+            
+            float[] buffer = createFilledBuffer(BANDS, mediaPlayer.getAudioSpectrumThreshold());
 
-                XYChart.Data[] series1Data = new XYChart.Data[BANDS];  
-
-                for (int i = 0; i < series1Data.length; i++)
-                {  
-                  series1Data[i] = new XYChart.Data<>(Integer.toString(i + 1), 0);  
-                  series1.getData().add(series1Data[i]);  
+            @Override
+            public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
+            {
+                for (int i = 0; i < magnitudes.length; i++) {  
+                    
+                    if (magnitudes[i] >= buffer[i])
+                    {  
+                        buffer[i] = magnitudes[i]; 
+                        series1Data[i].setYValue(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold());  
+                    }
+                    else
+                    {
+                        series1Data[i].setYValue(buffer[i] - mediaPlayer.getAudioSpectrumThreshold());  
+                        buffer[i] -= 0.25;  
+                    }
                 }
-
-        //        spectrum = new AreaChart(null, null);
-                spectrum.getData().add(series1);
-
-                mediaPlayer.setAudioSpectrumListener(new AudioSpectrumListener() {
-                    float[] buffer = createFilledBuffer(BANDS, mediaPlayer.getAudioSpectrumThreshold());
-
-                        @Override
-                        public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
-                        {
-                            for (int i = 0; i < magnitudes.length; i++) {  
-                            if (magnitudes[i] >= buffer[i])
-                            {  
-                              buffer[i] = magnitudes[i]; 
-                              series1Data[i].setYValue(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold());  
-                            }
-                            else
-                            {
-                              series1Data[i].setYValue(buffer[i] - mediaPlayer.getAudioSpectrumThreshold());  
-                              buffer[i] -= 0.25;  
-                            }
-                          }
-                        }
-                    });
-    }
-        
+            }
+        });
+    }   //  playSong vége
     
+    
+    
+    //  Lejátszás gomb onClick
     public void playButton(MouseEvent event)
     {
         if (!isPlaying)
@@ -309,18 +275,27 @@ public class FXMLDocumentController implements Initializable {
         isPlaying = true;
     }
     
+    
+    
+    //  Szünet gomb onClick
     public void pauseButton(MouseEvent event)
     {
         mediaPlayer.pause();
         isPlaying = false;
     }
     
+    
+    
+    //  Megállítás gomb onClick
     public void stopButton(MouseEvent event)
     {
         mediaPlayer.stop();
         isPlaying = false;
     }
     
+    
+    
+    //  Előző gomb onClick
     public void previousButton(MouseEvent event)
     {
         mediaPlayer.stop();
@@ -331,6 +306,9 @@ public class FXMLDocumentController implements Initializable {
         playSong(songs.get(currentPlayingIdx));
     }
     
+    
+    
+    //  Következő gomb onClick
     public void nextButton(MouseEvent event)
     {
         mediaPlayer.stop();
@@ -342,6 +320,8 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
+    
+    //  Audio Spectrum metódusa
     private float[] createFilledBuffer(int size, float fillValue) {  
         float[] floats = new float[size];  
         Arrays.fill(floats, fillValue);  
@@ -349,47 +329,17 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
+    
+    //  Új lista hozzáadás onClick
     public void addNewList(MouseEvent event)
     {
-        if(!playListField.getText().equals("")){
-              
+        if(!playListField.getText().equals(""))
+        {
             playLists.add(new playList(playListField.getText()));
             TableViewPlayList.setItems(playLists);
 //              playListView.getItems().add(playListField.getText());
-              playListField.clear();
-              
-          }  
+            playListField.clear();
+        }  
     }
-}
-
-
-
-//class SpectrumListener implements AudioSpectrumListener
-//{
-//    private float[] correctedMagnitude;
-//    float[] buffer = createFilledBuffer(mediaPlayer.getAudioSpectrumNumBands(), mediaPlayer.getAudioSpectrumThreshold());
-//        
-//    
-//    
-//    @Override
-//    public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
-//    {
-//        correctedMagnitude[0] = magnitudes[0] - mediaPlayer.getAudioSpectrumThreshold();
-//        
-//        
-//        
-//        for (int i = 0; i < magnitudes.length; i++) {  
-//        if (magnitudes[i] >= buffer[i])
-//        {  
-//          buffer[i] = magnitudes[i]; 
-//          series1Data[i].setYValue(magnitudes[i] - mediaPlayer.getAudioSpectrumThreshold());  
-//        }
-//        else
-//        {
-//          series1Data[i].setYValue(buffer[i] - mediaPlayer.getAudioSpectrumThreshold());  
-//          buffer[i] -= 0.25;  
-//        }
-//      }
-//   }
-//    
-//}
+    
+}   //  FXMLDocumentController osztály vége
