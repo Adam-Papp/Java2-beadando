@@ -64,6 +64,7 @@ public class FXMLDocumentController implements Initializable
     //  Playlist táblázat
     private ObservableList<playList> playLists = FXCollections.observableArrayList();
     @FXML
+    //Fooldali tablazat
     private TableView<playList> TableViewPlayList = new TableView<playList>();
     @FXML
     private TableColumn<playList, String> playListNameColumn = new TableColumn<>();
@@ -71,6 +72,14 @@ public class FXMLDocumentController implements Initializable
     private TableColumn<playList, String> playListSizeColumn = new TableColumn<>();
     @FXML
     private TextField playListField;
+    
+    //Lejatszasi lista oldali tablazat
+    private TableView<playList> TableViewPlayList2 = new TableView<playList>();
+    @FXML
+    private TableColumn<playList, String> playListNameColumn2 = new TableColumn<>();
+    @FXML
+    private TableColumn<playList, String> playListSizeColumn2 = new TableColumn<>();
+    
     
     
     
@@ -136,6 +145,12 @@ public class FXMLDocumentController implements Initializable
         {
             System.out.println(s.toString());
         }
+        System.out.println("PlayListek");
+        //  PlayListek kiírása konzolra
+        for (playList pl : playLists)
+        {
+            System.out.println(pl.toString());
+        }
         
         
         
@@ -146,11 +161,14 @@ public class FXMLDocumentController implements Initializable
         TableViewSongs.setItems(songs);
         
         
-        
-        //  Lejátszási lista tableview beállítása   -   Még nem működik jól
+        // Fooldali Lejátszási lista tableview beállítása
         playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
         playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         TableViewPlayList.setItems(playLists);
+        // Lejátszási lista oldali - Lejátszási lista tableview beállítása
+        playListNameColumn2.setCellValueFactory(new PropertyValueFactory<>("playListName"));
+        playListSizeColumn2.setCellValueFactory(new PropertyValueFactory<>("size"));
+        TableViewPlayList2.setItems(playLists);
         
         
         
@@ -371,6 +389,7 @@ public class FXMLDocumentController implements Initializable
         {
             playLists.add(new playList(playListField.getText()));
             TableViewPlayList.setItems(playLists);
+            TableViewPlayList2.setItems(playLists);
 //              playListView.getItems().add(playListField.getText());
             playListField.clear();
         }  
