@@ -32,6 +32,20 @@ public class playList {
 //
 //   }
 
+    public String getPlayListName() {
+        return playListName;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public ObservableList getSongs() {
+        return songs;
+    }
+    
+    
+
    public ObservableList getPersonTableList() {
       return this.songs;
    } 

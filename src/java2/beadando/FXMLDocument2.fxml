@@ -56,10 +56,10 @@
                         <TableColumn fx:id="lengthColumn" prefWidth="74.0" text="Hossz" />
                         <TableColumn fx:id="playCountColumn" prefWidth="126.0" text="Lejátszási frekvencia" />
                      </columns></TableView>
-                  <TableView fx:id="TableViewSongs1" editable="true" layoutX="22.0" layoutY="55.0" prefHeight="127.0" prefWidth="259.0">
+                  <TableView fx:id="TableViewPlayList2" editable="true" layoutX="22.0" layoutY="55.0" prefHeight="127.0" prefWidth="255.0">
                      <columns>
-                        <TableColumn fx:id="playListNameColumn" prefWidth="202.0" text="Név" />
-                        <TableColumn fx:id="playListCountColumn" prefWidth="56.0" text="Darab" />
+                        <TableColumn fx:id="playListNameColumn2" prefWidth="202.0" text="Név" />
+                        <TableColumn fx:id="playListSizeColumn2" prefWidth="51.0" text="Darab" />
                      </columns>
                   </TableView>
                </children></AnchorPane>
@@ -74,10 +74,10 @@
                   <Button layoutX="404.0" layoutY="274.0" mnemonicParsing="false" onMouseClicked="#addNewList" text="Button" />
                   <TextField fx:id="playListField" layoutX="226.0" layoutY="274.0" />
                   <Label layoutX="94.0" layoutY="275.0" prefHeight="23.0" prefWidth="116.0" text="Lejátszási lista" />
-                  <TableView fx:id="TableViewPlayList" layoutX="108.0" layoutY="39.0" prefHeight="200.0" prefWidth="408.0">
+                  <TableView fx:id="TableViewPlayList" layoutX="180.0" layoutY="39.0" prefHeight="200.0" prefWidth="243.0">
                     <columns>
-                      <TableColumn fx:id="playListNameColumn" prefWidth="84.0" text="Név" />
-                      <TableColumn fx:id="playListSizeColumn" minWidth="0.0" prefWidth="70.0" text="Darab" />
+                      <TableColumn fx:id="playListNameColumn" prefWidth="183.0" text="Név" />
+                      <TableColumn fx:id="playListSizeColumn" minWidth="0.0" prefWidth="57.0" text="Darab" />
                     </columns>
                   </TableView>
                </children>

@@ -74,6 +74,7 @@ public class FXMLDocumentController implements Initializable
     private TextField playListField;
     
     //Lejatszasi lista oldali tablazat
+    @FXML
     private TableView<playList> TableViewPlayList2 = new TableView<playList>();
     @FXML
     private TableColumn<playList, String> playListNameColumn2 = new TableColumn<>();
