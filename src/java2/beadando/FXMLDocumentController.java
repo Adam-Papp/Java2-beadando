@@ -64,6 +64,8 @@ public class FXMLDocumentController implements Initializable
     //  Playlist lista
     private ObservableList<playList> playLists = FXCollections.observableArrayList();
     
+    
+    
     //Lejatszasi lista oldali PlayList tablazat
     @FXML
     private TableView<playList> TableViewPlayList = new TableView<playList>();
@@ -74,6 +76,8 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private TextField playListField;
     
+    
+    
     //Fooldali tablazat
     @FXML
     private TableView<playList> TableViewPlayList2 = new TableView<playList>();
@@ -82,18 +86,21 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private TableColumn<playList, String> playListSizeColumn2 = new TableColumn<>();
     
+    
+    
     //Lejátszási oldali PlayList-ben lévő zenék táblázat
     @FXML
     private TableView<Song> TableViewPlayListSongs = new TableView<>();
     @FXML
     private TableColumn<Song, String> PlayListSongNameColumn = new TableColumn<>();
     
+    
+    
     //Lejátszási oldali összes zenék táblázat
     @FXML
     private TableView<Song> TableViewPlayListAllSongs = new TableView<>();
     @FXML
     private TableColumn<Song, String> playListAllSongsColumn = new TableColumn<>();
-    
     
     
     
@@ -167,19 +174,6 @@ public class FXMLDocumentController implements Initializable
             System.out.println(s.toString());
         }
         System.out.println("PlayListek");
-        //  PlayListek kiírása konzolra
-        for (playList pl : playLists)
-        {
-            System.out.println(pl.toString());
-        }
-        
-        
-        
-        //  Zenék tableview beállítása
-//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
-//        lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
-//        playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
-//        TableViewSongs.setItems(songs);
         
         
         
@@ -204,6 +198,7 @@ public class FXMLDocumentController implements Initializable
                 TableViewPlayListSongs.refresh();
             }
         });
+        
         
         
         // Fooldali Lejátszási lista tableview beállítása
@@ -237,27 +232,13 @@ public class FXMLDocumentController implements Initializable
                 }
                 isPlaying = false;
                 Song tempSong = (Song) observable.getValue();
-                playSong(tempSong);
+                try
+                {
+                    playSong(tempSong);
+                }catch(Exception e){
+                }
             }
         });
-        
-        
-        
-        //  Cella szerinti listener
-//        TableViewSongs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-//        @Override
-//        public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
-//            //Check whether item is selected and set value of selected item to Label
-//            if(TableViewSongs.getSelectionModel().getSelectedItem() != null) 
-//            {    
-//               TableViewSelectionModel selectionModel = TableViewSongs.getSelectionModel();
-//               ObservableList selectedCells = selectionModel.getSelectedCells();
-//               TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-//               Object val = tablePosition.getTableColumn().getCellData(newValue);
-//               System.out.println("Selected Value" + val);
-//             }
-//             }
-//        });
     }   //  initialize vége
     
     
@@ -353,7 +334,7 @@ public class FXMLDocumentController implements Initializable
         for (int i = 0; i < series1Data.length; i++)
         {  
             series1Data[i] = new XYChart.Data<>(Integer.toString(i + 1), 0);  
-             series1.getData().add(series1Data[i]);  
+            series1.getData().add(series1Data[i]);  
         }
 
         spectrum.getData().add(series1);
@@ -465,7 +446,8 @@ public class FXMLDocumentController implements Initializable
     //  PlayList törlés gomb onClick
     public void deletePlayList(MouseEvent event)
     {
-        playLists.remove(TableViewPlayList.getSelectionModel().getSelectedItem());
+        if (TableViewPlayList.getSelectionModel().getSelectedItem().getPlayListName() != "Összes zenék")
+            playLists.remove(TableViewPlayList.getSelectionModel().getSelectedItem());
     }
     
     
