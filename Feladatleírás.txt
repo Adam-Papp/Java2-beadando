@@ -1,0 +1,12 @@
+1. feladat: Média lejátszó program
+Készítsetek egy JavaFX felhasználói felültettel rendelkező zenelejátszó programot. A program tudjon
+lejátszani MP3 (vagy más elterjedt) formátumú zeneszámokat. A szokásos funkciók (lejátszás,
+megállítás, pillanat állj, előre-hátra ugrás, hangerő szabályozás) mellett, támogassa a playlist
+létrehozását (akár többet is, pl. tematikus alapon), illetve a zenehallgatás log-olását és összesített
+statisztikák készítését (pl. teljes eddigi zenehallgatási idő, lejátszott fájlok száma, lejátszási
+frekvenciája). A statisztikák szintén a grafikus felületen legyenek megtekinthetők. Amennyiben a
+fájlban tárolt meta-adatok elérhetők, azt is lehessen lekérdezni és megtekinteni.
+
+Opcionális funkcióként a lejátszás közben a zene spektruma is legyen látható egy panelban (erre van JavaFX
+támogatás). Szintén opcionális funkció lehet távoli szervereken tárolt fájl-ok lejátszásának
+támogatása.
