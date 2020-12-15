@@ -82,14 +82,14 @@
                         <TableColumn fx:id="PlayListSongNameColumn" prefWidth="242.0" text="Listában lévő zenék" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableViewPlayList11" layoutX="14.0" layoutY="31.0" prefHeight="311.0" prefWidth="243.0">
+                  <TableView fx:id="TableViewPlayListAllSongs" layoutX="14.0" layoutY="31.0" prefHeight="311.0" prefWidth="243.0">
                      <columns>
-                        <TableColumn fx:id="playListNameColumn11" prefWidth="242.0" text="Összes zene" />
+                        <TableColumn fx:id="playListAllSongsColumn" prefWidth="242.0" text="Összes zenék" />
                      </columns>
                   </TableView>
-                  <Button layoutX="492.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#addNewList" text="Törlés" />
-                  <Button layoutX="284.0" layoutY="199.0" mnemonicParsing="false" text="&gt;&gt;" />
-                  <Button layoutX="284.0" layoutY="253.0" mnemonicParsing="false" text="&lt;&lt;" />
+                  <Button layoutX="277.0" layoutY="63.0" mnemonicParsing="false" onMouseClicked="#deletePlayList" text="Törlés" />
+                  <Button layoutX="284.0" layoutY="199.0" mnemonicParsing="false" onMouseClicked="#AddSongToPlayList" text="&gt;&gt;" />
+                  <Button layoutX="284.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#DeleteSongFromPlayList" text="&lt;&lt;" />
                </children>
             </AnchorPane>
         </content>

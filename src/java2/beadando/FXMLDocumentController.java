@@ -88,6 +88,12 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private TableColumn<Song, String> PlayListSongNameColumn = new TableColumn<>();
     
+    //Lejátszási oldali összes zenék táblázat
+    @FXML
+    private TableView<Song> TableViewPlayListAllSongs = new TableView<>();
+    @FXML
+    private TableColumn<Song, String> playListAllSongsColumn = new TableColumn<>();
+    
     
     
     
@@ -148,7 +154,7 @@ public class FXMLDocumentController implements Initializable
         
         
         
-        //Összes zenék playList
+        //  Összes zenék playList
         playList osszesZenekPlayList = new playList("Összes zenék");
         osszesZenekPlayList.setSongs(songs);
         playLists.add(osszesZenekPlayList);
@@ -174,6 +180,14 @@ public class FXMLDocumentController implements Initializable
 //        lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
 //        playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
 //        TableViewSongs.setItems(songs);
+        
+        
+        
+        //  Lejátszási lista oldalon összes zenék táblázat beállítása
+        playListAllSongsColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
+        TableViewPlayListAllSongs.setItems(songs);
+        TableViewPlayListAllSongs.refresh();
+        
         
         
         // Lejátszási lista oldali - Lejátszási lista tableview beállítása
@@ -444,6 +458,54 @@ public class FXMLDocumentController implements Initializable
 //              playListView.getItems().add(playListField.getText());
             playListField.clear();
         }  
+    }
+    
+    
+    
+    //  PlayList törlés gomb onClick
+    public void deletePlayList(MouseEvent event)
+    {
+        playLists.remove(TableViewPlayList.getSelectionModel().getSelectedItem());
+    }
+    
+    
+    
+    //  PlayListhez hozzáad gomb onClick
+    public void AddSongToPlayList(MouseEvent event)
+    {
+        Song tempSong = TableViewPlayListAllSongs.getSelectionModel().getSelectedItem();
+        playList tempPlayList = TableViewPlayList.getSelectionModel().getSelectedItem();
+        ObservableList<Song> tempPlayListSongs = FXCollections.observableArrayList();
+        tempPlayListSongs = tempPlayList.getSongs();
+        boolean songExistsInPlayList = false;
+        
+        for (Song s : tempPlayListSongs)
+        {
+            if (s.getSongName() == tempSong.getSongName())
+                songExistsInPlayList = true;
+        }
+        
+        if (songExistsInPlayList == false)
+            tempPlayList.addSong(tempSong);
+        
+        TableViewPlayListSongs.refresh();
+        TableViewPlayList.refresh();
+        TableViewPlayList2.refresh();
+    }
+    
+    
+    
+    //  PlayListből törlés gomb onClick
+    public void DeleteSongFromPlayList(MouseEvent event)
+    {
+        Song tempSong = TableViewPlayListSongs.getSelectionModel().getSelectedItem();
+        playList tempPlayList = TableViewPlayList.getSelectionModel().getSelectedItem();
+        
+        tempPlayList.removeSong(tempSong);
+        
+        TableViewPlayListSongs.refresh();
+        TableViewPlayList.refresh();
+        TableViewPlayList2.refresh();
     }
     
 }   //  FXMLDocumentController osztály vége

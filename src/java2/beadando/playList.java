@@ -45,4 +45,22 @@ public class playList {
     public String toString() {
         return "playList{" + "playListName=" + playListName + ", size=" + size + ", songs=" + songs + '}';
     }
+    
+    
+    
+    //  Listához zene hozzáadás
+    public void addSong(Song s)
+    {
+        songs.add(s);
+        size = songs.size();
+    }
+    
+    
+    
+    //  Listából zene törlés
+    public void removeSong(Song s)
+    {
+        songs.remove(s);
+        size = songs.size();
+    }
 }
