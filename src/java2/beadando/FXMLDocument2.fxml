@@ -19,46 +19,45 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="600.0">
                <children>
-                  <Label layoutX="22.0" layoutY="25.0" text="Lejátszási listák:" />
-                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="309.0" layoutY="34.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER">
+                  <Label fx:id="currentPlaying" alignment="CENTER" layoutX="316.0" layoutY="34.0" prefHeight="17.0" prefWidth="259.0" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font></Label>
-                  <Slider fx:id="volumeSlider" blockIncrement="1.0" layoutX="366.0" layoutY="157.0" prefHeight="35.0" prefWidth="175.0" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="438.0" layoutY="103.0" onMouseClicked="#playButton" pickOnBounds="true" preserveRatio="true">
+                  <Slider fx:id="volumeSlider" blockIncrement="1.0" layoutX="358.0" layoutY="144.0" prefHeight="35.0" prefWidth="175.0" />
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="389.0" layoutY="88.0" onMouseClicked="#playButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/002-play-button-arrowhead.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="482.0" layoutY="103.0" onMouseClicked="#pauseButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="430.0" layoutY="88.0" onMouseClicked="#pauseButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/003-pause.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="322.0" layoutY="103.0" onMouseClicked="#previousButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="322.0" layoutY="88.0" onMouseClicked="#previousButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/005-previous.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="537.0" layoutY="103.0" onMouseClicked="#nextButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="538.0" layoutY="88.0" onMouseClicked="#nextButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/004-next.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="383.0" layoutY="103.0" onMouseClicked="#stopButton" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="474.0" layoutY="88.0" onMouseClicked="#stopButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/001-media-stop-button.png" />
                      </image>
                   </ImageView>
                   <TableView fx:id="TableViewSongs" editable="true" layoutX="22.0" layoutY="220.0" prefHeight="169.0" prefWidth="556.0">
                      <columns>
-                        <TableColumn fx:id="nameColumn" prefWidth="341.0" text="Név" />
+                        <TableColumn fx:id="nameColumn" prefWidth="341.0" text="Zene neve" />
                         <TableColumn fx:id="lengthColumn" prefWidth="74.0" text="Hossz" />
                         <TableColumn fx:id="playCountColumn" prefWidth="126.0" text="Lejátszási frekvencia" />
                      </columns></TableView>
-                  <TableView fx:id="TableViewPlayList2" editable="true" layoutX="22.0" layoutY="55.0" prefHeight="127.0" prefWidth="255.0">
+                  <TableView fx:id="TableViewPlayList2" editable="true" layoutX="22.0" layoutY="34.0" prefHeight="127.0" prefWidth="255.0">
                      <columns>
-                        <TableColumn fx:id="playListNameColumn2" prefWidth="202.0" text="Név" />
+                        <TableColumn fx:id="playListNameColumn2" prefWidth="202.0" text="Lejátszási lista neve" />
                         <TableColumn fx:id="playListSizeColumn2" prefWidth="51.0" text="Darab" />
                      </columns>
                   </TableView>
@@ -69,17 +68,28 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="213.0" prefWidth="600.0">
                <children>
-                  <Circle fill="WHITE" layoutX="41.0" layoutY="49.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fill="WHITE" layoutX="41.0" layoutY="92.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button layoutX="404.0" layoutY="274.0" mnemonicParsing="false" onMouseClicked="#addNewList" text="Button" />
-                  <TextField fx:id="playListField" layoutX="226.0" layoutY="274.0" />
-                  <Label layoutX="94.0" layoutY="275.0" prefHeight="23.0" prefWidth="116.0" text="Lejátszási lista" />
-                  <TableView fx:id="TableViewPlayList" layoutX="180.0" layoutY="39.0" prefHeight="200.0" prefWidth="243.0">
+                  <Button layoutX="378.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#addNewList" text="Új létrehozása" />
+                  <TextField fx:id="playListField" layoutX="205.0" layoutY="359.0" />
+                  <Label layoutX="89.0" layoutY="360.0" prefHeight="23.0" prefWidth="116.0" text="Lejátszási lista neve:" />
+                  <TableView fx:id="TableViewPlayList" layoutX="343.0" layoutY="31.0" prefHeight="88.0" prefWidth="243.0">
                     <columns>
-                      <TableColumn fx:id="playListNameColumn" prefWidth="183.0" text="Név" />
+                      <TableColumn fx:id="playListNameColumn" prefWidth="183.0" text="Lejátszási lista neve" />
                       <TableColumn fx:id="playListSizeColumn" minWidth="0.0" prefWidth="57.0" text="Darab" />
                     </columns>
                   </TableView>
+                  <TableView fx:id="TableViewPlayList1" layoutX="343.0" layoutY="130.0" prefHeight="211.0" prefWidth="243.0">
+                     <columns>
+                        <TableColumn fx:id="playListNameColumn1" prefWidth="242.0" text="Listában lévő zenék" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="TableViewPlayList11" layoutX="14.0" layoutY="31.0" prefHeight="311.0" prefWidth="243.0">
+                     <columns>
+                        <TableColumn fx:id="playListNameColumn11" prefWidth="242.0" text="Listában lévő zenék" />
+                     </columns>
+                  </TableView>
+                  <Button layoutX="492.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#addNewList" text="Törlés" />
+                  <Button layoutX="284.0" layoutY="199.0" mnemonicParsing="false" text="&gt;&gt;" />
+                  <Button layoutX="284.0" layoutY="253.0" mnemonicParsing="false" text="&lt;&lt;" />
                </children>
             </AnchorPane>
         </content>

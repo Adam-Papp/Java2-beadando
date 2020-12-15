@@ -166,6 +166,7 @@ public class FXMLDocumentController implements Initializable
         playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
         playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         TableViewPlayList.setItems(playLists);
+        
         // Lejátszási lista oldali - Lejátszási lista tableview beállítása
         playListNameColumn2.setCellValueFactory(new PropertyValueFactory<>("playListName"));
         playListSizeColumn2.setCellValueFactory(new PropertyValueFactory<>("size"));
@@ -262,6 +263,16 @@ public class FXMLDocumentController implements Initializable
             String songDuration[] = tempSong.getSongLength().split(":");
             totalPlayingDurationInteger = (Integer.parseInt(songDuration[0])*60) + Integer.parseInt(songDuration[1]);
             
+            int tempTotalPlayingDurationInteger = 0;
+            
+            if (playedFilesCountInt > 1)
+            {
+                String tempSongduration[] = totalPlayingDuration.getText().split(":");
+                tempTotalPlayingDurationInteger = (Integer.parseInt(tempSongduration[0])*60) + Integer.parseInt(tempSongduration[1]);
+            }
+            
+            totalPlayingDurationInteger += tempTotalPlayingDurationInteger;
+            
             while (totalPlayingDurationInteger > 59)
             {
                 totalMinutesCount++;
@@ -276,7 +287,9 @@ public class FXMLDocumentController implements Initializable
             {
                 totalPlayingDurationString = totalMinutesCount + ":" + totalPlayingDurationInteger;
             }
+            
             totalPlayingDuration.setText(totalPlayingDurationString);
+            totalMinutesCount = 0;
         }
         
         
