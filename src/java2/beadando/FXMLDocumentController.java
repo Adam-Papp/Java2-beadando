@@ -61,10 +61,11 @@ public class FXMLDocumentController implements Initializable
     
     
     
-    //  Playlist táblázat
+    //  Playlist lista
     private ObservableList<playList> playLists = FXCollections.observableArrayList();
+    
+    //Lejatszasi lista oldali PlayList tablazat
     @FXML
-    //Fooldali tablazat
     private TableView<playList> TableViewPlayList = new TableView<playList>();
     @FXML
     private TableColumn<playList, String> playListNameColumn = new TableColumn<>();
@@ -73,13 +74,19 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private TextField playListField;
     
-    //Lejatszasi lista oldali tablazat
+    //Fooldali tablazat
     @FXML
     private TableView<playList> TableViewPlayList2 = new TableView<playList>();
     @FXML
     private TableColumn<playList, String> playListNameColumn2 = new TableColumn<>();
     @FXML
     private TableColumn<playList, String> playListSizeColumn2 = new TableColumn<>();
+    
+    //Lejátszási oldali PlayList-ben lévő zenék táblázat
+    @FXML
+    private TableView<Song> TableViewPlayListSongs = new TableView<>();
+    @FXML
+    private TableColumn<Song, String> PlayListSongNameColumn = new TableColumn<>();
     
     
     
@@ -141,6 +148,13 @@ public class FXMLDocumentController implements Initializable
         
         
         
+        //Összes zenék playList
+        playList osszesZenekPlayList = new playList("Összes zenék");
+        osszesZenekPlayList.setSongs(songs);
+        playLists.add(osszesZenekPlayList);
+        
+        
+        
         //  Zenék kiírása konzolra
         for (Song s : songs)
         {
@@ -156,21 +170,44 @@ public class FXMLDocumentController implements Initializable
         
         
         //  Zenék tableview beállítása
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
-        lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
-        playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
-        TableViewSongs.setItems(songs);
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
+//        lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
+//        playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
+//        TableViewSongs.setItems(songs);
         
         
-        // Fooldali Lejátszási lista tableview beállítása
+        // Lejátszási lista oldali - Lejátszási lista tableview beállítása
         playListNameColumn.setCellValueFactory(new PropertyValueFactory<>("playListName"));
         playListSizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         TableViewPlayList.setItems(playLists);
+        TableViewPlayList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<playList>() {
+
+            @Override
+            public void changed(ObservableValue<? extends playList> observable, playList oldValue, playList newValue)
+            {
+                PlayListSongNameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
+                TableViewPlayListSongs.setItems(newValue.getSongs());
+                TableViewPlayListSongs.refresh();
+            }
+        });
         
-        // Lejátszási lista oldali - Lejátszási lista tableview beállítása
+        
+        // Fooldali Lejátszási lista tableview beállítása
         playListNameColumn2.setCellValueFactory(new PropertyValueFactory<>("playListName"));
         playListSizeColumn2.setCellValueFactory(new PropertyValueFactory<>("size"));
         TableViewPlayList2.setItems(playLists);
+        TableViewPlayList2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<playList>() {
+
+            @Override
+            public void changed(ObservableValue<? extends playList> observable, playList oldValue, playList newValue)
+            {
+                nameColumn.setCellValueFactory(new PropertyValueFactory<>("songName"));
+                lengthColumn.setCellValueFactory(new PropertyValueFactory<>("songLength"));
+                playCountColumn.setCellValueFactory(new PropertyValueFactory<>("playCount"));
+                TableViewSongs.setItems(newValue.getSongs());
+                TableViewSongs.refresh();
+            }
+        });
         
         
         

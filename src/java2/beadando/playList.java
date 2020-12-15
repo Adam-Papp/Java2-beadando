@@ -11,26 +11,13 @@ public class playList {
 
     private String playListName;
     private int size;
-    private ObservableList songs;
+    private ObservableList<Song> songs = FXCollections.observableArrayList();
 
 
     public playList(String playListName) {
         this.playListName = playListName;
         size = 0;
-//        if (songs == null) {
-//         this.songs = FXCollections.observableArrayList();
-//      } else {
-//         this.songs = songs;
-//      }
     }
-//   public playList(ObservableList list) {
-//      if (list == null) {
-//         this.songs = FXCollections.observableArrayList();
-//      } else {
-//         this.songs = list;
-//      }
-//
-//   }
 
     public String getPlayListName() {
         return playListName;
@@ -43,14 +30,19 @@ public class playList {
     public ObservableList getSongs() {
         return songs;
     }
-    
-    
 
-   public ObservableList getPersonTableList() {
-      return this.songs;
-   } 
+    public void setPlayListName(String playListName) {
+        this.playListName = playListName;
+    }
 
-   public void setPersonTableList(ObservableList list) {
-      this.songs = list;
-   }
+    public void setSongs(ObservableList songs) {
+        this.songs = songs;
+        
+        this.size = songs.size();
+    }
+
+    @Override
+    public String toString() {
+        return "playList{" + "playListName=" + playListName + ", size=" + size + ", songs=" + songs + '}';
+    }
 }

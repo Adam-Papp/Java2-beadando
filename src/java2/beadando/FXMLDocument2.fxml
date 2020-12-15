@@ -77,14 +77,14 @@
                       <TableColumn fx:id="playListSizeColumn" minWidth="0.0" prefWidth="57.0" text="Darab" />
                     </columns>
                   </TableView>
-                  <TableView fx:id="TableViewPlayList1" layoutX="343.0" layoutY="130.0" prefHeight="211.0" prefWidth="243.0">
+                  <TableView fx:id="TableViewPlayListSongs" layoutX="343.0" layoutY="130.0" prefHeight="211.0" prefWidth="243.0">
                      <columns>
-                        <TableColumn fx:id="playListNameColumn1" prefWidth="242.0" text="Listában lévő zenék" />
+                        <TableColumn fx:id="PlayListSongNameColumn" prefWidth="242.0" text="Listában lévő zenék" />
                      </columns>
                   </TableView>
                   <TableView fx:id="TableViewPlayList11" layoutX="14.0" layoutY="31.0" prefHeight="311.0" prefWidth="243.0">
                      <columns>
-                        <TableColumn fx:id="playListNameColumn11" prefWidth="242.0" text="Listában lévő zenék" />
+                        <TableColumn fx:id="playListNameColumn11" prefWidth="242.0" text="Összes zene" />
                      </columns>
                   </TableView>
                   <Button layoutX="492.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#addNewList" text="Törlés" />
