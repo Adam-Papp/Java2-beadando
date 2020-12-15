@@ -173,7 +173,6 @@ public class FXMLDocumentController implements Initializable
         {
             System.out.println(s.toString());
         }
-        System.out.println("PlayListek");
         
         
         
